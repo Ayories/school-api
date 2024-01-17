@@ -2,8 +2,7 @@ const express = require("express");
 require('dotenvv').config();
 
 // logger-file
-
- const logger = require("./utils/logger");
+const logger = require("./utils/logger");
 
 //DATABASE-INSTANCE
 const db = require("./config/db")
@@ -14,21 +13,21 @@ server.use(express.json());
 
 //routes
 const adminRoutes = require("./Admin/adminRoute")
-const courseRoutes = require("./Course/CourseRoute")
-const teacherRoutes = require("./Teacher/TeacherRoute")
-const studentRoutes = require("./Student/StudentRoute")
+// const courseRoutes = require("./Course/CourseRoute")
+// const teacherRoutes = require("./Teacher/TeacherRoute")
+// const studentRoutes = require("./Student/StudentRoute")
 
 server.use("api",adminRoutes)
-server.use("api",courseRoutes)
-server.use("api",studentRoutes)
-server.use("api",teacherRoutes)
+// server.use("api",courseRoutes)
+// server.use("api",studentRoutes)
+// server.use("api",teacherRoutes)
 
 server.use("/api",(req,res,next)=>{
     res.json("Hello World")
 })
 
 server.use((req,res,next)=>{
-    next("Hello World")
+    next(`${req.url} PAGE NOT FOUND`)
 })
 
 server.use((err,req,res,next)=>{
@@ -37,7 +36,7 @@ server.use((err,req,res,next)=>{
 })
 
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 
 db.connect(function(err) {

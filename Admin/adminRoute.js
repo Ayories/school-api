@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const adminController = require("./adminController");
 const validateFn = require("../utils/validationFn");
 const adminLogin = require("./adminValidation");
