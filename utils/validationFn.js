@@ -13,5 +13,5 @@ const validateFn = (schema)=>{
 }
 
 module.exports =  {
-    validationfn
+    validationFn
 }

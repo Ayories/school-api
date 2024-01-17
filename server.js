@@ -1,5 +1,5 @@
 const express = require("express");
-require('dotenvv').config();
+require('dotenv').config();
 
 // logger-file
 const logger = require("./utils/logger");
