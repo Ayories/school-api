@@ -17,9 +17,9 @@ const adminRoutes = require("./Admin/adminRoute")
 // const teacherRoutes = require("./Teacher/TeacherRoute")
 // const studentRoutes = require("./Student/StudentRoute")
 
-server.use("api",adminRoutes)
-// server.use("api",courseRoutes)
-// server.use("api",studentRoutes)
+server.use("api/admin",adminRoutes)
+// server.use("api/admin",courseRoutes)
+// server.use("api/",studentRoutes)
 // server.use("api",teacherRoutes)
 
 server.use("/api",(req,res,next)=>{
