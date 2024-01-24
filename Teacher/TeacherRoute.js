@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const teacherController = require("./TeacherController");
+const middleware = require("../middlewares/auth")
+const validateFn = require("../middlewares/validationFn");
 
 router.post("/register-Course",teacherController.registerteacher);
 router.post("/drop-Course",teacherController.dropcourse);

@@ -5,4 +5,9 @@ const studentLogin = joi.object({
     password:joi.string().required()
 });
 
+const createStudent = joi.object({
+    email:joi.string().email().required(),
+    password:joi.string().required()
+});
+
 module.exports = studentlogin;

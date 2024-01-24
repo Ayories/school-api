@@ -7,20 +7,20 @@ const logger = require("./utils/logger");
 //DATABASE-INSTANCE
 const db = require("./config/db")
 
-//server-instance
+//server-instance 
 const server = express();
-server.use(express.json());
+server.use(express.json()); // express.json is a middleware
 
 //routes
 const adminRoutes = require("./Admin/adminRoute")
-// const courseRoutes = require("./Course/CourseRoute")
-// const teacherRoutes = require("./Teacher/TeacherRoute")
-// const studentRoutes = require("./Student/StudentRoute")
+const courseRoutes = require("./Course/CourseRoute")
+const teacherRoutes = require("./Teacher/TeacherRoute")
+const studentRoutes = require("./Student/StudentRoute")
 
 server.use("api/admin",adminRoutes)
-// server.use("api/admin",courseRoutes)
-// server.use("api/",studentRoutes)
-// server.use("api",teacherRoutes)
+server.use("api/admin",courseRoutes)
+server.use("api/",studentRoutes)
+server.use("api",teacherRoutes)
 
 server.use("/api",(req,res,next)=>{
     res.json("Hello World")
@@ -47,5 +47,5 @@ db.connect(function(err) {
     server.listen(port, ()=>{
         console.log(`server is running on port ${port}`);
         console.log.log('connected as id ' + connection.thread.id);
-    });
+    }); //server.listen to start the server
 });
