@@ -5,35 +5,35 @@ require('dotenv').config();
 const logger = require("./utils/logger");
 
 //DATABASE-INSTANCE
-const db = require("./config/db")
+const db = require("./config/db");
 
 //server-instance 
 const server = express();
 server.use(express.json()); // express.json is a middleware
 
 //routes
-const adminRoutes = require("./Admin/adminRoute")
-const courseRoutes = require("./Course/CourseRoute")
-const teacherRoutes = require("./Teacher/TeacherRoute")
-const studentRoutes = require("./Student/StudentRoute")
+const adminRoutes = require("./Admin/adminRoute");
+const courseRoutes = require("./Course/CourseRoute");
+const teacherRoutes = require("./Teacher/TeacherRoute");
+const studentRoutes = require("./Student/StudentRoute");
 
-server.use("api/admin",adminRoutes)
-server.use("api/admin",courseRoutes)
-server.use("api/",studentRoutes)
-server.use("api",teacherRoutes)
+server.use("api/",adminRoutes);
+server.use("api/",courseRoutes);
+server.use("api/",studentRoutes);
+server.use("api/",teacherRoutes);
 
 server.use("/api",(req,res,next)=>{
     res.json("Hello World")
-})
+});
 
 server.use((req,res,next)=>{
     next(`${req.url} PAGE NOT FOUND`)
-})
+});
 
 server.use((err,req,res,next)=>{
     console.log(err);
     res.status(400).json({error:err});
-})
+});
 
 
 const port = process.env.PORT || 8000;

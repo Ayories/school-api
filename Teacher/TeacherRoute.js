@@ -4,7 +4,7 @@ const teacherController = require("./TeacherController");
 const middleware = require("../middlewares/auth")
 const validateFn = require("../middlewares/validationFn");
 
-router.post("/register-Course",teacherController.registerteacher);
+router.post("/register-Course",teacherController.register);
 router.post("/drop-Course",teacherController.dropcourse);
 router.post("/register-Teacher",teacherController.registerteacher);
 router.post("/handle-Course",teacherController.coursehandled);
