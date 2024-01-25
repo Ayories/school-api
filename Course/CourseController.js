@@ -1,3 +1,6 @@
+
+
+
 function createCourse(req,res){
     try{
     const { course_name,course_code,course_units}=req.body;

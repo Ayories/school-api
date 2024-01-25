@@ -12,4 +12,7 @@ const register = joi.object({
     registration_date:joi.int.date().required()
 });
 
-module.exports = studentlogin;
+module.exports = {
+    studentlogin,
+    register
+};
