@@ -7,6 +7,6 @@ function getAdminByEmail(email){
         console.log(result)    
     } 
     catch (error) {
-        throw
+        throw error
     }
 }
