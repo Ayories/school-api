@@ -5,10 +5,10 @@ const middleware = require("../middlewares/auth")
 const validateFn = require("../middlewares/validationFn");
 
 router.post("/register-Course",teacherController.register);
-router.post("/drop-Course",teacherController.dropcourse);
-router.post("/register-Teacher",teacherController.registerteacher);
+router.post("/drop-Course",teacherController.deleteTeacher);
+// router.post("/register-Teacher",teacherController.registerteacher);
 router.post("/handle-Course",teacherController.coursehandled);
-router.put("/update-Profile",teacherController.updateprofile);
+router.put("/update-Profile",teacherController.update);
 router.post("/login",validateFn(teacherLogin),teacherController.login)
 router.post("/logout",teacherController.logout);
 router.delete("/")

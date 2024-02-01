@@ -12,3 +12,19 @@ function getTeacherByEmail(email){
         throw error
     }
 }
+
+function getTeacherByEmail(email){
+    try{
+        const sql = `SELECT * FROM teacher WHERE email = ${email}`;
+        const result = dBConnection.execute(sql);
+        console.log(result);
+    }
+    catch(error){
+        throw error;
+    }
+}
+
+module.exports = {
+    register,
+    getTeacherByEmail
+}

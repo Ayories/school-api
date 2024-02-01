@@ -7,8 +7,8 @@ async function hashPassword(password){
 }
 
 //compare password
-function comparePassword(password, hashPassword){
-    const comparedPassword =  bcrypt.compare(password,10)
+async function comparePassword(password, hashPassword){
+    const comparedPassword = await bcrypt.compare(password,10)
     return comparedPassword;
 }
 
