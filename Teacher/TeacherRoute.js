@@ -6,8 +6,7 @@ const validateFn = require("../middlewares/validationFn");
 
 router.post("/register-Course",teacherController.register);
 router.post("/drop-Course",teacherController.deleteTeacher);
-// router.post("/register-Teacher",teacherController.registerteacher);
-router.post("/handle-Course",teacherController.coursehandled);
+router.post("/handle-Course",teacherController.handleCourse);
 router.put("/update-Profile",teacherController.update);
 router.post("/login",validateFn(teacherLogin),teacherController.login)
 router.post("/logout",teacherController.logout);

@@ -1,4 +1,7 @@
 const teacherModel = require('./TeacherModel.js')
+const jwt = require("../utils/jwtFn");
+const bcrypt = require("../utils/bcryptFn");
+
 
 function register(req,res){
     try{
@@ -14,91 +17,108 @@ function register(req,res){
         }
     }
 
-    const login = (req, res) => {
-        try{
-            const {email, password} = req.body;
-            const teacher = teacherModel.getTeacherByEmail(email);
-            if(!teacher){
-              return res.status(400).json({message:"Invalid Email"})
-            }
-            const isMatch = bcrypt.comparePassword(password, teacher.password);
-            if(!isMatch){
-              res.status(400).json({message:"Invalid Password"})
-            }
-            const token = jwt.generateToken({email:teacher.email,role:"teacher"});
-            res.header("x-auth",token);
-            res.status(200).json({message:"Login Successfull"});
-          }
-          catch(error){
-            res.status(500).json({message:"Internal Server Error",error:error.message});
-          }
+function handleCourse(req,res){
+    try{
+        const {course_code} = req.body;
+        const email = req.user.email
+        const result = teacherModel.handleCourse(course_code,email);
+        if(!result){
+            return res.status(400).json({message:"Invalid Course Code"});
+        }
+        res.status(200).json({message:"Course Selected Successfully"});
     }
-    
-    const logout = (req, res) => {
-        try{
-            res.header['x-auth']='';
-            res.status(200).json({message:"Logout Successfull"});
-          }
-          catch(error){
-            res.status(500).json({message:"Internal Server Error"});
-          }
+    catch(error){
+        res.status(500).json({message:"Internal Server Error"});
     }
+}
     
-    const getTeachers = (req,res)=>{
-        try{
-            const teachers = teacherModel.getTeachers();
-            res.status(200).json({teachers});
+
+const login = (req, res) => {
+    try{
+        const {email, password} = req.body;
+        const teacher = teacherModel.getTeacherByEmail(email);
+        if(!teacher){
+            return res.status(400).json({message:"Invalid Email"})
+        }
+        const isMatch = bcrypt.comparePassword(password, teacher.password);
+        if(!isMatch){
+            res.status(400).json({message:"Invalid Password"})
+        }
+        const token = jwt.generateToken({email:teacher.email,role:"teacher"});
+        res.header("x-auth",token);
+        res.status(200).json({message:"Login Successfull"});
         }
         catch(error){
-            res.status(500).json({message:"Internal Server Error"});
+        res.status(500).json({message:"Internal Server Error",error:error.message});
         }
-    }
-    
-    const getTeacher = (req,res)=>{
-        try{
-            const {email} = req.params;
-            const teacher = teacherModel.getTeacherByEmail(email);
-            res.status(200).json({teacher});
-        }
-        catch(error){
-            res.status(500).json({message:"Internal Server Error"});
-        }
-    }
-    
-    const update= (req,res)=>{
-        try{
-            const {email,password,dob} = req.body;
-            const hashedPassword = "";
-            if(password){
-                hashedPassword = bcrypt.hashPassword(password);
-            }
-            const teacher = teacherModel.updateTeacher(req.user.email,email,hashedPassword,dob);
-            res.status(200).json({teacher});
+}
+
+const logout = (req, res) => {
+    try{
+        res.header['x-auth']='';
+        res.status(200).json({message:"Logout Successfull"});
         }
         catch(error){
-            res.status(500).json({message:"Internal Server Error"});
+        res.status(500).json({message:"Internal Server Error"});
         }
+}
+
+const getTeachers = (req,res)=>{
+    try{
+        const teachers = teacherModel.getTeachers();
+        res.status(200).json({teachers});
     }
-    
-    const deleteTeacher = (req,res)=>{
-        try{
-            const {email} = req.body;
-            const teacher = teacherModel.deleteTeacher(req.user.email,email);
-            res.status(200).json({teacher});
+    catch(error){
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+const getTeacher = (req,res)=>{
+    try{
+        const {email} = req.params;
+        const teacher = teacherModel.getTeacherByEmail(email);
+        res.status(200).json({teacher});
+    }
+    catch(error){
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+const update= (req,res)=>{
+    try{
+        const {email,password,dob} = req.body;
+        const hashedPassword = "";
+        if(password){
+            hashedPassword = bcrypt.hashPassword(password);
         }
-        catch(error){
-            res.status(500).json({message:"Internal Server Error"});
-        }
+        const teacher = teacherModel.updateTeacher(req.user.email,email,hashedPassword,dob);
+        res.status(200).json({teacher});
     }
-    
-    module.exports = {
-        register,
-        login,
-        logout,
-        getTeachers,
-        getTeacher,
-        update,
-        deleteTeacher
+    catch(error){
+        res.status(500).json({message:"Internal Server Error"});
     }
+}
+
+const deleteTeacher = (req,res)=>{
+    try{
+        const {email} = req.body;
+        const teacher = teacherModel.deleteTeacher(req.user.email,email);
+        res.status(200).json({teacher});
+    }
+    catch(error){
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+module.exports = {
+    register,
+    handleCourse,
+    login,
+    logout,
+    getTeachers,
+    getTeacher,
+    update,
+    deleteTeacher
+}
 
     
