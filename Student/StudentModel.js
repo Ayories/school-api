@@ -1,11 +1,12 @@
 const dbConnection = require("../config/db");
 
-function getStudentByEmail(email){
-    try {
-        const sql = `SELECT * FROM admin WHERE email = ${email}`;
-        const result = dbConnection.execute(sql);
-        console.log(result)    
-    } 
+function register(email,password,dob){
+    try{
+        const sql = `INSERT INTO students(email,password,dob) VALUES(${email},${password},${dob})`;
+        const result = dBConnection.execute(sql);
+        console.log(result);
+        return result;
+    }
     catch (error) {
         throw error
     }
@@ -13,7 +14,7 @@ function getStudentByEmail(email){
 
 async function updateStudent(Student_data){
     try{
-        const sql = `SELECT * FROM courses WHERE course_code = '${course_data.course_code}'`
+        const sql = `SELECT * FROM students WHERE EMAIL = '${course_data.course_code}'`
         return new  Promise((resolve,reject)=>{
             dBConnection.execute(sql,(err,results)=>{
             if(err){
@@ -26,7 +27,7 @@ async function updateStudent(Student_data){
         throw error;
     }
 }
-async function getTeachers(Teacher_query){
+async function getStudents(student_query){
     try{
         let sql;
         if(course_query){
@@ -48,7 +49,7 @@ async function getTeachers(Teacher_query){
         throw error;
     }
 }
-async function getTeacher(Teacher_data){
+async function getStudent(Student_data){
     try{
        const sql = `SELECT * FROM courses WHERE course_name = '${course_data.course_name}' `
        return new Promise((resolve,reject)=>{
@@ -64,9 +65,9 @@ async function getTeacher(Teacher_data){
     }
 }
 
-async function deleteTeacher(Teacher_data){
+async function deleteStudent(student_data){
     try{
-       const sql = `SELECT * FROM  WHERE course_name = '${course_data.course_name}' `
+       const sql = `SELECT * FROM students WHERE EMAIL = '${student_data.course_Email}' `
        return new Promise((resolve,reject)=>{
         dBConnection.execute(sql,(err,results)=>{
         if(err){
@@ -79,3 +80,5 @@ async function deleteTeacher(Teacher_data){
         throw error;
     }
 }
+
+module.exports = {register, getStudent, getStudents, updateStudent, deleteStudent}

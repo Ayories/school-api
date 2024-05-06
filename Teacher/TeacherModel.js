@@ -49,7 +49,7 @@ async function getTeachers(Teacher_query){
         throw error;
     }
 }
-async function getTeacher(){
+async function getTeacher(Teacher_data){
     try{
        const sql = `SELECT * FROM teachers WHERE Email = '${Email}' `
        return new Promise((resolve,reject)=>{
@@ -81,9 +81,4 @@ async function deleteTeacher(Teacher_data){
     }
 }
 
-module.exports = {deleteTeacher, getTeacher, getTeachers}
-
-module.exports = {
-    register,
-    getTeacherByEmail
-}
+module.exports = {deleteTeacher, getTeacher, getTeachers, updateTeacher, register }
