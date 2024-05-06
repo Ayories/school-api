@@ -3,7 +3,7 @@ const jwt = require("../utils/jwtFn");
 const bcrypt = require("../utils/bcryptFn");
 
 
-function register(req,res){
+function registerStudent(req,res){
     try{
     const {email,password,date_of_birth}=req.body;
     const studentData = studentModel.register(email, password, dob);
@@ -84,7 +84,7 @@ const getStudent = (req,res)=>{
     }
 }
 
-const update = (req,res)=>{
+const updateStudent = (req,res)=>{
     try{
         const {email,password,dob} = req.body;
         const hashedPassword = "";
@@ -99,25 +99,26 @@ const update = (req,res)=>{
     }
 }
 
-// const deleteTeacher = (req,res)=>{
-//     try{
-//         const {email} = req.body;
-//         const teacher = teacherModel.deleteTeacher(req.user.email,email);
-//         res.status(200).json({student});
-//     }
-//     catch(error){
-//         res.status(500).json({message:"Internal Server Error"});
-//     }
-// }
+const deleteTeacher = (req,res)=>{
+    try{
+        const {email} = req.body;
+        const teacher = teacherModel.deleteTeacher(req.user.email,email);
+        res.status(200).json({student});
+    }
+    catch(error){
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
 
     module.exports = {
-        register,
+        registerStudent,
         registerCourse,
         login,
         logout,
         getStudents,
         getStudent,
-        update,
+        updateStudent,
+        deleteTeacher 
     }
 
     

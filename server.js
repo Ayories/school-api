@@ -13,9 +13,9 @@ server.use(express.json()); // express.json is a middleware
 
 // routes
 const adminRoutes = require("./Admin/adminRoute");
-const courseRoutes = require("./Course/CourseRoute");
-const teacherRoutes = require("./Teacher/TeacherRoute");
-const studentRoutes = require("./Student/StudentRoute");
+// const courseRoutes = require("./Course/CourseRoute");
+// const teacherRoutes = require("./Teacher/TeacherRoute");
+// const studentRoutes = require("./Student/StudentRoute");
 
 
 server.use('/api',(req,res,next)=>{
@@ -27,10 +27,11 @@ server.use('/api',(req,res,next)=>{
 
 server.use("/api/admin",adminRoutes);
 server.use("/api/course",courseRoutes);
-server.use("/api/student",studentRoutes);
-server.use("/api/teacher",teacherRoutes);
+// server.use("/api/student",studentRoutes);
+// server.use("/api/teacher",teacherRoutes);
 
 server.use((req,res,next)=>{
+    logger.error("PAGE NOT FOUND")
     next(new Error(`${req.url} PAGE NOT FOUND`))
 });
 

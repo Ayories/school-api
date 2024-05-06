@@ -2,7 +2,6 @@ const teacherModel = require('./TeacherModel.js')
 const jwt = require("../utils/jwtFn");
 const bcrypt = require("../utils/bcryptFn");
 
-
 function register(req,res){
     try{
         const {email,password,date_of_birth}=req.body;
@@ -33,7 +32,7 @@ function handleCourse(req,res){
 }
     
 
-const login = (req, res) => {
+const loginTeacher = (req, res) => {
     try{
         const {email, password} = req.body;
         const teacher = teacherModel.getTeacherByEmail(email);
@@ -53,7 +52,7 @@ const login = (req, res) => {
         }
 }
 
-const logout = (req, res) => {
+const logoutTeacher = (req, res) => {
     try{
         res.header['x-auth']='';
         res.status(200).json({message:"Logout Successfull"});
@@ -84,7 +83,7 @@ const getTeacher = (req,res)=>{
     }
 }
 
-const update= (req,res)=>{
+const updateTeacher= (req,res)=>{
     try{
         const {email,password,dob} = req.body;
         const hashedPassword = "";
@@ -113,11 +112,11 @@ const deleteTeacher = (req,res)=>{
 module.exports = {
     register,
     handleCourse,
-    login,
-    logout,
+    loginTeacher,
+    logoutTeacher,
     getTeachers,
     getTeacher,
-    update,
+    updateTeacher,
     deleteTeacher
 }
 

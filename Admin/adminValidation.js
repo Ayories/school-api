@@ -5,4 +5,4 @@ const adminLogin = joi.object({
     password:joi.string().required()
 });
 
-module.exports = adminlogin;
+module.exports = adminLogin;

@@ -1,12 +1,20 @@
-const dbConnection = require("../config/db");
+const dBConnection = require("../config/db");
 
-function getAdminByEmail(email){
-    try {
-        const sql = `SELECT * FROM admin WHERE email = ${email}`;
-        const result = dbConnection.execute(sql);
-        console.log(result)    
-    } 
-    catch (error) {
-        throw error
+async function getAdminByEmail(Email){
+    try{
+        const sql = `SELECT * FROM admin WHERE email = '${Email}'`;
+        return new Promise((resolve,reject)=>{
+            dBConnection.execute(sql,(err,results)=>{
+            if(err){
+                reject(err);
+            }
+            resolve(results[0]);
+        });
+    });
+    }
+    catch(error){
+        throw error;
     }
 }
+
+module.exports = {getAdminByEmail}
