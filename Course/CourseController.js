@@ -1,4 +1,4 @@
-const courseModel = require("./courseModel");
+const courseModel = require("./CourseModel");
 
 function createCourse(req, res) {
   try {
@@ -60,4 +60,16 @@ function deleteCourse(req,res){
         res.status(500).json({message:"Internal Server Error"})
     }
 }
-module.exports = { createCourse, getAllCourses, getCourse, deleteCourse };
+
+const updateCourse = (req,res)=>{
+  try{
+    const { course_title, course_code, course_units, course_description } =
+    req.body;
+      const course = courseModel.update(req.body.course_code);
+      res.status(200).json({course});
+  }
+  catch(error){
+      res.status(500).json({message:"Internal Server Error"});
+  }
+}
+module.exports = { createCourse, getAllCourses, getCourse, deleteCourse, updateCourse };
