@@ -5,11 +5,11 @@ const bcrypt = require("../utils/bcryptFn");
 function register(req,res){
     try{
         const {email,password,date_of_birth}=req.body;
-        const teacherData = teacherModel.register(email, password, dob);
-        res.status(201).json({ message: "Teacher created successfully", data:teacherData});
         if(teacherModel.getTeacher(email)){
             res.status(400).json({message:" teacher already exists"})
         }
+        const teacherData = teacherModel.register(email, password, date_of_birth);
+        res.status(201).json({ message: "Teacher created successfully", data:teacherData});      
     }
     catch(error){
             res.status(400).json({message:"error registering teacher",error:err})

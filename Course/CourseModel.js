@@ -71,7 +71,7 @@ async function getCourse(course_data){
 
 async function deleteCourse(course_data){
     try{
-       const sql = `SELECT * FROM courses WHERE course_name = '${course_data.course_name}' `
+       const sql = `DELETE FROM courses WHERE course_name = '${course_data.course_name}' `
        return new Promise((resolve,reject)=>{
         dBConnection.execute(sql,(err,results)=>{
         if(err){

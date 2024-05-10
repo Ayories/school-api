@@ -24,7 +24,7 @@ const authenticateUser = (req, res, next) => {
 const authorizeUser = (user) => {
     return (req, res, next) => {
         const {role} = req.user
-        if (role!=user) {
+        if (!user.includes(role)) {
             return res.status(403).json({ message: 'Forbidden privileges' });
         }
         next()

@@ -1,4 +1,4 @@
-const studentModel = require("./studentModel");
+const studentModel = require("./StudentModel");
 const jwt = require("../utils/jwtFn");
 const bcrypt = require("../utils/bcryptFn");
 
