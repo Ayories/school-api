@@ -4,8 +4,8 @@ const studentController = require("./StudentController");
 const auth = require("../middlewares/auth")
 const validateFn = require("../middlewares/validationFn");
 
-router.post("/register-course", auth.authenticateUser,auth.authorizeUser("student"),studentController.registerCourse);
-router.delete("/drop-course", auth.authenticateUser,auth.authorizeUser("student"),studentController.dropCourse);
+router.post("/register-course/:course_name", auth.authenticateUser,auth.authorizeUser(["student"]),studentController.registerCourse);
+router.delete("/drop-course", auth.authenticateUser,auth.authorizeUser(["student"]),studentController.dropCourse);
 router.post("/register",studentController.registerStudent);
 router.get("/all",studentController.getStudents)
 router.get("/:name",studentController.getStudent);

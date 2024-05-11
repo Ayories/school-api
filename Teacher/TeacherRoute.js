@@ -6,7 +6,7 @@ const validateFn = require("../middlewares/validationFn");
 const teacherSchema = require("./teacherValidation")
 
 router.post("/register", validateFn(courseSchema.register), teacherController.register);
-router.post("/handle-course/:course-name", auth.authenticateUser,auth.authorizeUser(["teacher"]),teacherController.handleCourse);
+router.post("/handle-course/:course_name", auth.authenticateUser,auth.authorizeUser(["teacher"]),teacherController.handleCourse);
 router.put("/update",teacherController.updateTeacher);//only a teacher
 router.get("/:email",teacherController.getTeacher);//only admin and teacher
 router.get("/all",teacherController.getTeachers);//only admin

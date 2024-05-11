@@ -18,12 +18,12 @@ function register(req,res){
 
 function handleCourse(req,res){
     try{
-        const {course_code} = req.body;
+        const {course_code} = req.params.course_name;
         const email = req.user.email
-        const result = teacherModel.handleCourse(course_code,email);
         if(!result){
             return res.status(400).json({message:"Invalid Course Code"});
         }
+        const result = teacherModel.handleCourse(course_code,email);
         res.status(200).json({message:"Course Selected Successfully"});
     }
     catch(error){
@@ -90,7 +90,8 @@ const updateTeacher= (req,res)=>{
         if(password){
             hashedPassword = bcrypt.hashPassword(password);
         }
-        const teacher = teacherModel.updateTeacher(req.user.email,email,hashedPassword,dob);
+        let formerEmail = req.user.email;
+        const teacher = teacherModel.updateTeacher({formerEmail,email,hashedPassword,dob});
         res.status(200).json({teacher});
     }
     catch(error){
