@@ -34,7 +34,7 @@ function register(email,password,dob){
 async function updateTeacher(teacherData){
     try{
         const { formerEmail, email,dob,password }= teacherData;
-        const sql = `UPDATE teachers SET email = COALESCE('${email}',email) , Date_of_birth= COALESCE('${dob}',Date_of_birth), Password=COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
+        const sql = `UPDATE teachers SET email = COALESCE('${email}',email) , Date_of_birth = COALESCE('${dob}',Date_of_birth), Passwordb = COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
         return new  Promise((resolve,reject)=>{
             dBConnection.execute(sql,(err,results)=>{
             if(err){
@@ -50,7 +50,7 @@ async function updateTeacher(teacherData){
 
 function handleCourse(email,password,dob){
     try{
-        const sql = `INSERT INTO registered_courses(Email,Pass_word,Date_of_birth) VALUES(${email},${password},${dob})`;
+        const sql = `INSERT INTO handled_courses(Email,Pass_word,Date_of_birth) VALUES(${email},${password},${dob})`;
         const result = dBConnection.execute(sql);
         console.log(result);
         return result;
@@ -115,4 +115,4 @@ async function deleteTeacher(Teacher_data){
     }
 }
 
-module.exports = {register, getTeacherByEmail, deleteTeacher, getTeacher, getTeachers, updateTeacher}
+module.exports = {register, handleCourse, getTeacherByEmail, deleteTeacher, getTeacher, getTeachers, updateTeacher}

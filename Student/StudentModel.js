@@ -31,7 +31,7 @@ function register(email,password,dob){
 
 function register_course(email,password,dob){
     try{
-        const sql = `INSERT INTO registered(email,password,dob) VALUES(${email},${password},${dob})`;
+        const sql = `INSERT INTO registered_courses(email,password,dob) VALUES(${email},${password},${dob})`;
         const result = dBConnection.execute(sql);
         console.log(result);
         return result;
@@ -43,7 +43,7 @@ function register_course(email,password,dob){
 async function updateStudent(studentData){
     try{
         const { formerEmail, email,dob,password }= studentData;
-        const sql = `UPDATE students SET email = COALESCE('${email}',email) , Date_of_birth= COALESCE('${dob}',Date_of_birth), Password=COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
+        const sql = `UPDATE students SET email = COALESCE('${email}',email) , Date_of_birth = COALESCE('${dob}',Date_of_birth), Passwordb = COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
         return new  Promise((resolve,reject)=>{
             dBConnection.execute(sql,(err,results)=>{
             if(err){
@@ -96,7 +96,7 @@ async function getStudent(Student_data){
 
 async function deleteStudent(student_data){
     try{
-       const sql = `Delete FROM students WHERE EMAIL = '${student_data.course_Email}' `
+       const sql = `DELETE FROM students WHERE EMAIL = '${student_data.course_Email}' `
        return new Promise((resolve,reject)=>{
         dBConnection.execute(sql,(err,results)=>{
         if(err){
@@ -110,4 +110,21 @@ async function deleteStudent(student_data){
     }
 }
 
-module.exports = {getStudentByEmail, register, getStudent, getStudents, updateStudent, deleteStudent}
+async function deleteStudent(student_data){
+    try{
+       const sql = `DELETE FROM registered_courses WHERE EMAIL = '${student_data.course_Email}' `
+       return new Promise((resolve,reject)=>{
+        dBConnection.execute(sql,(err,results)=>{
+        if(err){
+            reject(err);
+        }
+        resolve(results);
+    });
+});
+    }catch(error){
+        throw error;
+    }
+}
+
+
+module.exports = {getStudentByEmail, register, register_course, getStudent, getStudents, updateStudent, deleteStudent}
