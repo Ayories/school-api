@@ -13,6 +13,7 @@ router.put("/:name",studentController.updateStudent);
 router.post("/login",validateFn(studentLogin),studentController.login)
 router.post("/logout",auth.authenticateUser ,studentController.logout)
 
+module.exports = router;
 
 // router.get("/student/:name",studentController.getcourse)
 // router.get("/student/",studentController.getcourse)
