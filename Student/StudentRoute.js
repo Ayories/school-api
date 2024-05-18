@@ -3,6 +3,7 @@ const router = express.Router();
 const studentController = require("./StudentController");
 const auth = require("../middlewares/auth")
 const validateFn = require("../middlewares/validationFn");
+const {studentLogin, register} = require("./studentValidation")
 
 router.post("/register-course/:course_name", auth.authenticateUser,auth.authorizeUser(["student"]),studentController.registerCourse);
 router.delete("/drop-course", auth.authenticateUser,auth.authorizeUser(["student"]),studentController.dropCourse);
@@ -16,3 +17,5 @@ router.post("/logout",auth.authenticateUser ,studentController.logout)
 
 // router.get("/student/:name",studentController.getcourse)
 // router.get("/student/",studentController.getcourse)
+
+module.exports = router

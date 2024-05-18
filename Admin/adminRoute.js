@@ -8,6 +8,7 @@ const auth = require("../middlewares/auth")
 
 
 router.post("/login",validateFn(adminLogin),adminController.login)
+router.post("/register-admin", adminController.registerAdmin)
 router.post("/logout", auth.authenticateUser, adminController.logOut);
 
 module.exports = router
