@@ -1,8 +1,8 @@
-const dBConnection = require("../config/db");
+const Connection = require("../config/db");
 
 async function createCourse(course_data){
     try{
-        const sql = `SELECT * FROM courses WHERE course_code = '${course_data.course_code}'`;
+        const sql = `INSERT into courses(course_name,course_code,units,description) values(${course_data.course_name},'${course_data.course_code},${course_data.course_units},${course_data.course_description}) '`;
         return new Promise((resolve,reject)=>{
             dBConnection.execute(sql,(err,results)=>{
             if(err){
@@ -18,7 +18,7 @@ async function createCourse(course_data){
 }
 async function updateCourse(course_data){
     try{
-        const sql = `SELECT * FROM courses WHERE course_code = '${course_data.course_code}'`
+        const sql = ` UPDATE courses SET course_name = COALESCE('${course_data.course_name}',course_name) , course_code = COALESCE('${course_data.course_code}',course_code), units = COALESCE('${course_data.course_units}',units, descriptions = COALESCE('${course_data.course_description}',descriptions)) WHERE course_code = '${formerCourse}'`
         return new  Promise((resolve,reject)=>{
             dBConnection.execute(sql,(err,results)=>{
             if(err){

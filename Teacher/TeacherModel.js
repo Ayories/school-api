@@ -1,10 +1,10 @@
-const dbConnection = require("../config/db");
+const Connection = require("../config/db");
 
 async function getTeacherByEmail(email){
     try{
         const sql = `SELECT * FROM teachers WHERE Email = '${email}'`;
         return new Promise((resolve,reject)=>{
-            dBConnection.execute(sql,(err,results)=>{
+            Connection.execute(sql,(err,results)=>{
             if(err){
                 reject(err);
             }
@@ -21,7 +21,7 @@ async function getTeacherByEmail(email){
 function register(email,password,dob){
     try{
         const sql = `INSERT INTO teacher(Email,Pass_word,Date_of_birth) VALUES(${email},${password},${dob})`;
-        const result = dBConnection.execute(sql);
+        const result = Connection.execute(sql);
         console.log(result);
         return result;
     }
@@ -34,9 +34,9 @@ function register(email,password,dob){
 async function updateTeacher(teacherData){
     try{
         const { formerEmail, email,dob,password }= teacherData;
-        const sql = `UPDATE teachers SET email = COALESCE('${email}',email) , Date_of_birth = COALESCE('${dob}',Date_of_birth), Passwordb = COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
+        const sql = `UPDATE teachers SET Email = COALESCE('${email}',email) , Date_of_birth = COALESCE('${dob}',Date_of_birth), Password = COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
         return new  Promise((resolve,reject)=>{
-            dBConnection.execute(sql,(err,results)=>{
+            Connection.execute(sql,(err,results)=>{
             if(err){
                 reject(err);
             }
@@ -51,7 +51,7 @@ async function updateTeacher(teacherData){
 function handleCourse(email,password,dob){
     try{
         const sql = `INSERT INTO handled_courses(Email,Pass_word,Date_of_birth) VALUES(${email},${password},${dob})`;
-        const result = dBConnection.execute(sql);
+        const result = Connection.execute(sql);
         console.log(result);
         return result;
     }
@@ -71,7 +71,7 @@ async function getTeachers(Teacher_query){
         sql = `SELECT * FROM courses`;
         }
         return new Promise((resolve,reject)=>{
-            dBConnection.execute(sql,(err,results)=>{
+            Connection.execute(sql,(err,results)=>{
             if(err){
                 reject(err);
             }
@@ -87,7 +87,7 @@ async function getTeacher(Teacher_data){
     try{
        const sql = `SELECT * FROM teachers WHERE Email = '${Email}' `
        return new Promise((resolve,reject)=>{
-        dBConnection.execute(sql,(err,results)=>{
+        Connection.execute(sql,(err,results)=>{
         if(err){
             reject(err);
         }
@@ -101,9 +101,9 @@ async function getTeacher(Teacher_data){
 
 async function deleteTeacher(Teacher_data){
     try{
-       const sql = `SELECT * FROM  WHERE  = '${course_data.course_name}' `
+       const sql = `SELECT * FROM teachers WHERE Email = '${Teacher_data.Email}' `
        return new Promise((resolve,reject)=>{
-        dBConnection.execute(sql,(err,results)=>{
+        Connection.execute(sql,(err,results)=>{
         if(err){
             reject(err);
         }

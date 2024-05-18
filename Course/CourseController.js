@@ -63,9 +63,10 @@ function deleteCourse(req,res){
 
 const updateCourse = (req,res)=>{
   try{
-    const { course_title, course_code, course_units, course_description } =
+    const { course_name, course_code, course_units, course_description } =
     req.body;
-      const course = courseModel.update(req.body.course_code);
+    let formerCourse = req.user.course_code
+      const course = courseModel.update(formerCourse, course_name, course_code, course_units, course_description);
       res.status(200).json({course});
   }
   catch(error){

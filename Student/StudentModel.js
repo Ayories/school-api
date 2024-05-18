@@ -1,10 +1,10 @@
-const dbConnection = require("../config/db");
+const Connection = require("../config/db");
 
 async function getStudentByEmail(Email){
     try{
-        const sql = `SELECT * FROM studdents WHERE email = '${Email}'`;
+        const sql = `SELECT * FROM students WHERE Email = '${Email}'`;
         return new Promise((resolve,reject)=>{
-            dBConnection.execute(sql,(err,results)=>{
+            Connection.execute(sql,(err,results)=>{
             if(err){
                 reject(err);
             }
@@ -17,10 +17,10 @@ async function getStudentByEmail(Email){
     }
 }
 
-function register(email,password,dob){
+async function register(email, password, dob){
     try{
-        const sql = `INSERT INTO students(email,password,dob) VALUES(${email},${password},${dob})`;
-        const result = dBConnection.execute(sql);
+        const sql = `INSERT into students(Email,Password,Date_of_Birth) VALUES(?,?,?)`;
+        const result = await Connection.execute(sql,[email,password,dob]);
         console.log(result);
         return result;
     }
@@ -31,8 +31,8 @@ function register(email,password,dob){
 
 function register_course(email,password,dob){
     try{
-        const sql = `INSERT INTO registered_courses(email,password,dob) VALUES(${email},${password},${dob})`;
-        const result = dBConnection.execute(sql);
+        const sql = `INSERT INTO registered_courses(Email,Password,Date_of_Birth) VALUES(${email},${password},${dob})`;
+        const result = Connection.execute(sql);
         console.log(result);
         return result;
     }
@@ -43,9 +43,9 @@ function register_course(email,password,dob){
 async function updateStudent(studentData){
     try{
         const { formerEmail, email,dob,password }= studentData;
-        const sql = `UPDATE students SET email = COALESCE('${email}',email) , Date_of_birth = COALESCE('${dob}',Date_of_birth), Passwordb = COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
+        const sql = `UPDATE students SET Email = COALESCE('${email}',Email) , Date_of_birth = COALESCE('${dob}',Date_of_birth), Password = COALESCE('${password}',Password) WHERE Email = '${formerEmail}'`
         return new  Promise((resolve,reject)=>{
-            dBConnection.execute(sql,(err,results)=>{
+            Connection.execute(sql,(err,results)=>{
             if(err){
                 reject(err);
             }
@@ -66,7 +66,7 @@ async function getStudents(student_query){
         sql = `SELECT * FROM courses`;
         }
         return new Promise((resolve,reject)=>{
-            dBConnection.execute(sql,(err,results)=>{
+            Connection.execute(sql,(err,results)=>{
             if(err){
                 reject(err);
             }
@@ -82,7 +82,7 @@ async function getStudent(Student_data){
     try{
        const sql = `SELECT * FROM courses WHERE course_name = '${course_data.course_name}' `
        return new Promise((resolve,reject)=>{
-        dBConnection.execute(sql,(err,results)=>{
+        Connection.execute(sql,(err,results)=>{
         if(err){
             reject(err);
         }
@@ -96,9 +96,9 @@ async function getStudent(Student_data){
 
 async function deleteStudent(student_data){
     try{
-       const sql = `DELETE FROM students WHERE EMAIL = '${student_data.course_Email}' `
+       const sql = `DELETE FROM students WHERE Email = '${student_data.Email}' `
        return new Promise((resolve,reject)=>{
-        dBConnection.execute(sql,(err,results)=>{
+        Connection.execute(sql,(err,results)=>{
         if(err){
             reject(err);
         }
@@ -110,11 +110,11 @@ async function deleteStudent(student_data){
     }
 }
 
-async function deleteStudent(student_data){
+async function dropCourse(student_data){
     try{
        const sql = `DELETE FROM registered_courses WHERE EMAIL = '${student_data.course_Email}' `
        return new Promise((resolve,reject)=>{
-        dBConnection.execute(sql,(err,results)=>{
+        Connection.execute(sql,(err,results)=>{
         if(err){
             reject(err);
         }
@@ -127,4 +127,4 @@ async function deleteStudent(student_data){
 }
 
 
-module.exports = {getStudentByEmail, register, register_course, getStudent, getStudents, updateStudent, deleteStudent}
+module.exports = {getStudentByEmail, register, register_course, getStudent, getStudents, updateStudent, deleteStudent, dropCourse}

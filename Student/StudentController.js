@@ -1,19 +1,20 @@
 const studentModel = require("./StudentModel");
 const jwt = require("../utils/jwtFn");
 const bcrypt = require("../utils/bcryptFn");
+// const courseModel = require("../Course/CourseModel")
 
-
-function registerStudent(req,res){
+async function registerStudent(req,res){
     try{
     const {email,password,date_of_birth}=req.body;
-    const studentData = studentModel.register(email, password, dob);
-    res.status(201).json({ message: "Student created successfully", data:studentData});
-    if(courseModel.getCourse(email)){
-        res.status(400).json({message:" student already exists"})
-    }
-    courseModel.createCourse(email,password,date_of_birth)}
+    const dob = new Date(date_of_birth).toISOString().split("T")[0];
+    const studentData = await studentModel.register(email, password, dob);
+    res.status(201).json({ message: "Student created successfully", data:studentData});}
+    // if(studentModel.getStudent(email)){
+    //     res.status(400).json({message:" student already exists"})
+    // }
+    // studentModel.registerStudent(email,password,date_of_birth)}
     catch(error){
-        res.status(400).json({message:"error registering student",error:err})
+        res.status(400).json({message:"error registering student",error: error.message })
     }
 }
 
