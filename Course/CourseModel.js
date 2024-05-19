@@ -8,26 +8,29 @@ async function createCourse(
 ) {
   try {
     const createTableSql = `
-        CREATE TABLE IF NOT EXISTS courses (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          course_title VARCHAR(255) NOT NULL UNIQUE,
-          course_code VARCHAR(255) NOT NULL,
-          course_units VARCHAR(255) NOT NULL,
-          course_description VARCHAR(255) NOT NULL
-        )
-      `;
+      CREATE TABLE IF NOT EXISTS courses (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        course_title VARCHAR(255) NOT NULL UNIQUE,
+        course_code VARCHAR(255) NOT NULL,
+        course_units VARCHAR(255) NOT NULL,
+        course_description VARCHAR(255) NOT NULL
+      )
+    `;
     await connection.execute(createTableSql);
+
     const sql = `
-    INSERT INTO courses(course_title, course_code, course_units,course_description) VALUES(?, ?, ?, ?)
-  `;
-    const result = await connection.execute(sql, [
+      INSERT INTO courses (course_title, course_code, course_units, course_description) 
+      VALUES (?, ?, ?, ?)
+    `;
+    await connection.execute(sql, [
       course_title,
       course_code,
       course_units,
       course_description,
     ]);
-    return result;
+    return { course_code, course_description, course_title, course_units };
   } catch (error) {
+    console.error("Database Error:", error);
     throw error;
   }
 }
@@ -35,7 +38,7 @@ async function updateCourse(course_data) {
   try {
     const sql = `SELECT * FROM courses WHERE course_code = '${course_data.course_code}'`;
     return new Promise((resolve, reject) => {
-      dBConnection.execute(sql, (err, results) => {
+      connection.execute(sql, (err, results) => {
         if (err) {
           reject(err);
         }
@@ -49,13 +52,17 @@ async function updateCourse(course_data) {
 async function getAllCourses(course_query) {
   try {
     let sql;
+    let params = [];
+
     if (course_query) {
-      sql = `SELECT * FROM courses WHERE course_name LIKE %'${course_query}'% `;
+      sql = `SELECT * FROM courses WHERE course_title LIKE ?`;
+      params.push(`%${course_query}%`);
     } else {
       sql = `SELECT * FROM courses`;
     }
+
     return new Promise((resolve, reject) => {
-      dBConnection.execute(sql, (err, results) => {
+      connection.execute(sql, params, (err, results) => {
         if (err) {
           reject(err);
         }
@@ -63,20 +70,23 @@ async function getAllCourses(course_query) {
       });
     });
   } catch (error) {
+    console.error("Database Error:", error);
     throw error;
   }
 }
 async function getCourse(course_data) {
   try {
     const sql = `SELECT * FROM courses WHERE course_title = '${course_data.course_title}' `;
-    return new Promise((resolve, reject) => {
-      connection.execute(sql, (err, results) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(results);
-      });
-    });
+    const data = await connection.execute(sql);
+    // return new Promise((resolve, reject) => {
+    //   connection.execute(sql, (err, results) => {
+    //     if (err) {
+    //       reject(err);
+    //     }
+    //     resolve(results);
+    //   });
+    // });
+    return data;
   } catch (error) {
     throw error;
   }

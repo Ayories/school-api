@@ -4,34 +4,46 @@ async function createCourse(req, res) {
   try {
     const { course_title, course_code, course_units, course_description } =
       req.body;
-      console.log("here")
-    const createdCourse = await courseModel.createCourse({
+    const createdCourse = await courseModel.createCourse(
       course_title,
       course_code,
       course_units,
-      course_description,
-    });
-    console.log(createdCourse)
+      course_description
+    );
     res
       .status(201)
       .json({ message: "Course Created successfully", data: createdCourse });
   } catch (err) {
-    res.status(500).json({ message: "Error creating course", error: err });
+    res
+      .status(500)
+      .json({ message: "Error creating course", error: err.message });
   }
 }
 
-function getAllCourses(req, res) {
+async function getAllCourses(req, res) {
   try {
+    console.log("Fetching courses...");
     let courses;
     let query = req.query.q;
+
     if (query) {
-      courses = courseModel.getAllCourses(query);
+      courses = await courseModel.getAllCourses(query);
     } else {
-      courses = courseModel.getAllCourses();
+      courses = await courseModel.getAllCourses();
     }
-    res.status(200).json({ data: courses });
+
+    return res
+      .status(200)
+      .json({
+        status: true,
+        message: "Courses retreived successfully",
+        data: courses,
+      });
   } catch (err) {
-    res.status(500).json({ message: "Error fetching courses", error: err });
+    console.error("Error fetching courses:", err);
+    return res
+      .status(500)
+      .json({ message: "Error fetching courses", error: err.message || err });
   }
 }
 

@@ -1,5 +1,5 @@
 const studentModel = require("./StudentModel");
-const transporter = require("../utils/mailer")
+const transporter = require("../utils/mailer");
 const jwt = require("../utils/jwtFn");
 const bcrypt = require("../utils/bcryptFn");
 const courseModel = require("../Course/CourseModel");
@@ -8,12 +8,8 @@ async function registerStudent(req, res) {
   try {
     const { email, password, date_of_birth } = req.body;
     const dob = new Date(date_of_birth).toISOString().split("T")[0];
-    const hashedPassword = await bcrypt.hashPassword(password)
+    const hashedPassword = await bcrypt.hashPassword(password);
     const studentData = await studentModel.register(email, hashedPassword, dob);
-    await transporter.sendMail({
-      from : process.env.EMAIL_USER,
-      to : email
-    })
     res
       .status(201)
       .json({ message: "Student created successfully", data: studentData });
@@ -46,7 +42,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const student = await studentModel.getStudentByEmail(email);
-    console.log(student)
+    console.log(student);
     if (!student) {
       return res.status(400).json({ message: "Invalid Email" });
     }
@@ -56,7 +52,7 @@ const login = async (req, res) => {
     }
     const token = jwt.generateToken({ email: student.email, role: "student" });
     res.header("x-auth", token);
-    res.status(200).json({ message: "Login Successfull", data : {token} });
+    res.status(200).json({ message: "Login Successfull", data: { token } });
   } catch (error) {
     res
       .status(500)
